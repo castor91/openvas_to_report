@@ -94,17 +94,14 @@ class Port(object):
         if not isinstance(info, str):
             raise TypeError("Expected basestring, got '%s' instead" % type(info))
         
-        regex = re.search("([\w\W]+)(\()([\d]+)(/)([\w]+)", info)
+	regex = re.search("(\d*|general)\/(tcp|udp)", info)
 
         if regex:
-            if len(regex.groups()) != 5:
-                raise ValueError("Can't parse input string")
-
-            description = regex.group(1).strip()
-            number = int(regex.group(3))
-            protocol = regex.group(5)
-
-            return Port(number, protocol, description)
+            try:
+               number = int(regex.group(1))
+            except:
+               number = 0
+            return Port(number, regex.group(2), "")
 
         else:
             raise ValueError("Can't parse input string")

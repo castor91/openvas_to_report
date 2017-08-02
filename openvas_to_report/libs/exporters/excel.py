@@ -155,36 +155,35 @@ def _export_generic_format(output_file_name, vuln_info, lang):
     # --------------------------------------
     ws.merge_range("B2:D2", trans["vuln summary"], format_sheet_title_content)
     ws.write("B3", trans["level"], format_table_titles)
-    ws.write("B4", trans["critical"], format_table_titles)
-    ws.write("B5", trans["high"], format_table_titles)
-    ws.write("B6", trans["medium"], format_table_titles)
-    ws.write("B7", trans["low"], format_table_titles)
-    ws.write("B9", "Total", format_table_titles)
+    #ws.write("B4", trans["critical"], format_table_titles)
+    ws.write("B4", trans["high"], format_table_titles)
+    ws.write("B5", trans["medium"], format_table_titles)
+    ws.write("B6", trans["low"], format_table_titles)
+    ws.write("B8", "Total", format_table_titles)
     ws.write("C3", trans["vulns number"], format_table_titles)
     ws.write("D3", trans["affected hosts"], format_table_titles)
 
     # Write vulnerability numbers
-    ws.write("C4", vuln_levels["critical"], format_align_border)
-    ws.write("C5", vuln_levels["high"], format_align_border)
-    ws.write("C6", vuln_levels["medium"], format_align_border)
-    ws.write("C7", vuln_levels["low"], format_align_border)
-    ws.write("C9", sum(vuln_levels.values()), format_table_titles)
+    #ws.write("C4", vuln_levels["critical"], format_align_border)
+    ws.write("C4", vuln_levels["high"], format_align_border)
+    ws.write("C5", vuln_levels["medium"], format_align_border)
+    ws.write("C6", vuln_levels["low"], format_align_border)
+    ws.write("C8", sum(vuln_levels.values()), format_table_titles)
 
     # Write affected hosts
-    ws.write("D4", vuln_host_by_level["critical"], format_align_border)
-    ws.write("D5", vuln_host_by_level["high"], format_align_border)
-    ws.write("D6", vuln_host_by_level["medium"], format_align_border)
-    ws.write("D7", vuln_host_by_level["low"], format_align_border)
-    ws.write("D9", sum(vuln_host_by_level.values()), format_table_titles)
+    #ws.write("D4", vuln_host_by_level["critical"], format_align_border)
+    ws.write("D4", vuln_host_by_level["high"], format_align_border)
+    ws.write("D5", vuln_host_by_level["medium"], format_align_border)
+    ws.write("D6", vuln_host_by_level["low"], format_align_border)
+    ws.write("D8", sum(vuln_host_by_level.values()), format_table_titles)
 
     # Add charts
     chart_vulns_summary = workbook.add_chart({'type': 'pie'})
     chart_vulns_summary.add_series({
         'name': 'vulnerability summary by affected hosts',
-        'categories': '=%s!B4:B7' % sheet_name,
-        'values':     '=%s!D4:D7' % sheet_name,
+        'categories': '=%s!B4:B6' % sheet_name,
+        'values':     '=%s!D4:D6' % sheet_name,
         'points': [
-            {'fill': {'color': '#900077'}},
             {'fill': {'color': '#cc1100'}},
             {'fill': {'color': '#ccab2e'}},
             {'fill': {'color': '#418e35'}},
