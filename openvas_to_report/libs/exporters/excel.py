@@ -226,6 +226,8 @@ def _export_generic_format(output_file_name, vuln_info, lang):
     # Details sheet
     # --------------------------------------------------------------------------
     # Add a sheet by each vuln
+    value_of = lambda x, y, z: ((x == 'High' and 10000000) or (x == 'Medium' and 1000000) or 10000) + y * 100 + z
+    vuln_info.sort(key=lambda x: value_of(x.threat, len(x.hosts), int(x.cvss)), reverse=True)
     for i, vuln in enumerate(vuln_info, 1):
 
         # Create worksheet and set title
