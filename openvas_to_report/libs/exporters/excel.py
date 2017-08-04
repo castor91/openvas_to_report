@@ -304,7 +304,7 @@ def _export_generic_format(output_file_name, vuln_info, lang):
 
             # Port info
             if port:
-                w1.write("E%s" % j, port.number)
+                w1.write("E%s" % j, port.number if port.number != 0 else 'general')
                 w1.write("F%s" % j, port.protocol)
                 #w1.write("G%s" % j, port.description)
             else:
