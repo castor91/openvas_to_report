@@ -31,8 +31,9 @@
 """This file contains data structures"""
 
 import re
+import socket
 
-
+dict_ip = {}
 # --------------------------------------------------------------------------
 class Port(object):
     """Port information"""
@@ -142,8 +143,16 @@ class Host(object):
             raise TypeError("Expected basestring, got '%s' instead" % type(host_name))
 
         self.ip = ip
-        self.host_name = host_name
-
+        if host_name != "":
+            self.host_name = host_name
+	else:
+            if ip in dict_ip:
+                self.host_name = dict_ip[ip]
+            else:
+                tmp_hostname = socket.getfqdn(ip)
+		if tmp_hostname == ip: dict_ip[ip] = ""
+                else: dict_ip[ip] = tmp_hostname
+		self.host_name = dict_ip[ip]
     # ----------------------------------------------------------------------
     def __eq__(self, other):
         if not isinstance(other, Host):

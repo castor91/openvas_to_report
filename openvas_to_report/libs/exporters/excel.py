@@ -36,8 +36,8 @@ import re
 import xlsxwriter
 
 from ..data.parsed_data import Vulnerability
+from ..data.parsed_data import dict_ip
 from ..translations import get_translation_path, loader
-
 
 # ----------------------------------------------------------------------
 def export_to_excel(vuln_info, output_file_name, lang="en", template="generic"):
@@ -177,6 +177,10 @@ def _export_generic_format(output_file_name, vuln_info, lang):
     ws.write("D6", vuln_host_by_level["low"], format_align_border)
     ws.write("D8", sum(vuln_host_by_level.values()), format_table_titles)
 
+    # Ivan
+    ws.write("B10", "Distinct Hosts", format_table_titles)
+    ws.write("C10", len(dict_ip), format_align_border)
+
     # Add charts
     chart_vulns_summary = workbook.add_chart({'type': 'pie'})
     chart_vulns_summary.add_series({
@@ -287,7 +291,7 @@ def _export_generic_format(output_file_name, vuln_info, lang):
         w1.write('D9', trans["Host name"], format_table_titles)
         w1.write('E9', trans["Port number"], format_table_titles)
         w1.write('F9', trans["Port protocol"], format_table_titles)
-        w1.write('G9', trans["Port description"], format_table_titles)
+        #w1.write('G9', trans["Port description"], format_table_titles)
 
         # Add Hosts/Port
         for j, (host, port) in enumerate(vuln.hosts, 10):
@@ -300,7 +304,7 @@ def _export_generic_format(output_file_name, vuln_info, lang):
             if port:
                 w1.write("E%s" % j, port.number)
                 w1.write("F%s" % j, port.protocol)
-                w1.write("G%s" % j, port.description)
+                #w1.write("G%s" % j, port.description)
             else:
                 w1.write("E%s" % j, "No port info")
 
